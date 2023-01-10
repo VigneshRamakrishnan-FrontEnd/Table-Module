@@ -2,38 +2,37 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import "../../assets/css/table.css"
-import "../../assets/css/column.css"
+import "../../assets/css/table.css";
+import "../../assets/css/column.css";
 
 export default function ColumnModule() {
   //sending value by dispatch to redux
   const dispatch = useDispatch();
 
   const [select, setSelect] = useState(false);
-  //name
-  const [name, setName] = useState("");
-  //date
-  const [date, setDate] = useState("");
-  //age
-  const [age, setAge] = useState("");
 
+  const [allData, setAllData] = useState({ name: "", date: "", age: "" });
+
+  const handleChange = (e) => {
+    setAllData({ ...allData, [e.target.name]: e.target.value });
+  };
 
   function onAdd(e) {
     e.preventDefault();
     let updatedValue = [...storeData];
-    if (!name) {
+    if (!allData.name) {
       alert("enter the name");
-    } else if (!date) {
+    } else if (!allData.date) {
       alert("enter the date");
-    } else if (!age) {
+    } else if (!allData.age) {
       alert("enter the age");
     } else {
       updatedValue.push({
-        name: name,
-        date: date,
-        age: age,
-        
+        name: allData.name,
+        date: allData.date,
+        age: allData.age,
       });
+      console.log(updatedValue, "vanthudumame");
       navigate("/table ");
       dispatch({ type: "store", payload: updatedValue });
       setSelect(false);
@@ -45,12 +44,9 @@ export default function ColumnModule() {
 
   let navigate = useNavigate();
 
-
   return (
     <div clas="container border p-5   ">
-      
       <div className="overall">
-        
         <div>
           <div className="container column text-center  ">
             <h1>Column Module</h1>
@@ -68,9 +64,9 @@ export default function ColumnModule() {
                     <input
                       name="name"
                       placeholder="name"
-                      value={name}
+                      value={allData.name}
                       type="text"
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={handleChange}
                     />
                   </td>
                   <td>
@@ -88,9 +84,9 @@ export default function ColumnModule() {
                             Date Of Birth :
                             <input
                               name="date"
-                              value={date}
+                              value={allData.date}
                               type="date"
-                              onChange={(e) => setDate(e.target.value)}
+                              onChange={handleChange}
                             />
                           </a>
                         </li>
@@ -99,26 +95,24 @@ export default function ColumnModule() {
                             Age :
                             <input
                               name="age"
-                              value={age}
+                              value={allData.age}
                               placeholder="age"
-                              onChange={(e) => setAge(e.target.value)}
+                              onChange={handleChange}
                               type="number"
                             />
                           </a>
                         </li>
-                        
-                        
-              
                       </ul>
                     </div>
                   </td>
                   <td>
-                    <button className=" border-secondary " onClick={onAdd}>submit</button>
+                    <button className=" border-secondary " onClick={onAdd}>
+                      submit
+                    </button>
                   </td>
                 </tr>
               </tbody>
             </table>
-            
           </div>
         </div>
       </div>
